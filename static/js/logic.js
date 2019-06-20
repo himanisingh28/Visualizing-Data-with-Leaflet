@@ -34,31 +34,28 @@ function createMap(earthquakeData) {
     collapsed: false
   }).addTo(map);
   
-  function getColor(d) {
+  function getColor(mag) {
     console.log("in color");
-    return d > 5 ? '#F30' :
-    d > 4  ? '#F60' :
-    d > 3  ? '#F90' :
-    d > 2  ? '#FC0' :
-    d > 1   ? '#FF0' :
-              '#9F3';
+    return mag >= 5 ? '#ff0000' :
+    mag >= 4  ? '#ff4d00' :
+    mag >= 3  ? '#ff7700' :
+    mag >= 2  ? '#ffaa00' :
+    mag >= 1   ? '#ffdc00' :
+              '#b5fc00';
    } 
-  
+   
    // Set up the legend
  var legend = L.control({ position: "bottomright" });
- legend.onAdd = function(map) {
+ legend.onAdd = function() {
    var div = L.DomUtil.create("div", "info legend"),
-          grades = [0,1,2,3,4,5];
-         labels = [];
+          grades = [1,2,3,4,5];
+         labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
     // Add min & max
     for (var i = 0; i < grades.length; i++) {
       
-          labels.push('<i style="background-color:' + getColor(grades[i] + 1) + '"></i> ' + 
-      + grades[i] + (grades[i + 1] ? ' - ' + grades[i + 1] + '<br>' : ' + '));
-      console.log("i am here")
+      div.innerHTML += "<table><tr><td style='background:" + getColor(grades[i]) + ";'></td><td>"+ labels[i]+"</td><tr></table>";
       
     }
-    div.innerHTML = labels.join('<br>');
     
   return div;
  };
